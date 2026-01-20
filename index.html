@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ArkPage — Deploy GitHub Pages like a Pro</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root {
+  --bg: #020409;
+  --panel: rgba(13,17,23,.92);
+  --border: #1f2933;
+  --text: #c9d1d9;
+  --accent: #00ff9c;
+  --accent2: #58a6ff;
+}
+
+* { box-sizing: border-box; font-family: "JetBrains Mono", monospace; }
+
+body {
+  margin: 0;
+  background: black;
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* ========== MATRIX BACKGROUND ========== */
+canvas {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+}
+
+/* ========== LOADER ========== */
+#loader {
+  position: fixed;
+  inset: 0;
+  background: black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.glitch {
+  font-size: 28px;
+  color: var(--accent);
+  animation: flicker 1.5s infinite;
+}
+
+@keyframes flicker {
+  0%,100% { opacity: 1 }
+  50% { opacity: .4 }
+}
+
+.bar {
+  width: 240px;
+  height: 6px;
+  border: 1px solid var(--accent);
+  margin-top: 20px;
+}
+
+.fill {
+  height: 100%;
+  width: 0%;
+  background: var(--accent);
+  animation: load 2.5s forwards;
+}
+
+@keyframes load {
+  to { width: 100% }
+}
+
+/* ========== HEADER ========== */
+header {
+  padding: 90px 20px;
+  text-align: center;
+  background: linear-gradient(to bottom, rgba(0,0,0,.8), transparent);
+  position: relative;
+}
+
+.menu-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.menu {
+  position: absolute;
+  right: 20px;
+  top: 55px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  display: none;
+}
+
+.menu a {
+  display: block;
+  padding: 12px 18px;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.menu a:hover {
+  background: #0b0f14;
+}
+
+/* ========== ASCII ========== */
+pre {
+  color: var(--accent);
+  font-size: 13px;
+}
+
+/* ========== MAIN ========== */
+main {
+  max-width: 1000px;
+  margin: auto;
+  padding: 50px 20px;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 30px;
+  margin-bottom: 35px;
+  backdrop-filter: blur(8px);
+}
+
+h2 {
+  color: var(--accent2);
+}
+
+button {
+  background: var(--accent);
+  color: black;
+  border: none;
+  padding: 14px 28px;
+  font-size: 16px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: .85;
+}
+
+/* ========== TERMINAL ========== */
+.terminal {
+  background: black;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  color: #00ff9c;
+}
+
+/* ========== FOOTER ========== */
+footer {
+  text-align: center;
+  padding: 40px;
+  color: #8b949e;
+  font-size: 13px;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div id="loader">
+  <div class="glitch">Initializing ArkPage CLI...</div>
+  <div class="bar"><div class="fill"></div></div>
+</div>
+
+<header>
+  <div class="menu-btn" onclick="toggleMenu()">⋮</div>
+  <div class="menu" id="menu">
+    <a href="#">⬇ Download</a>
+    <a href="https://github.com/" target="_blank">💻 GitHub</a>
+    <a href="#about">👤 About</a>
+  </div>
+
+<pre>
+      _    ____  _  __   ____        ____  _____
+     / \  |  _ \| |/ /  |  _ \ __ _ /  _ \| ____|
+    / _ \ | |_) | ' /   | |_) / _` ||_|_| ||  _|
+   / ___ \|  _ <| . \   |  __/ (_| | ___| | |___
+  /_/   \_\_| \_\_|\_\  |_|   \__,_||____/|_____|
+
+      ArkPage — GitHub Pages, weaponized
+                 by ARK206
+</pre>
+
+<button>Download CLI</button>
+</header>
+
+<main>
+
+<div class="card">
+  <h2>🚀 What is ArkPage?</h2>
+  <p>
+    ArkPage is a zero-config CLI tool that turns any folder
+    into a live GitHub Pages website in seconds.
+  </p>
+</div>
+
+<div class="card">
+  <h2>⚡ CLI Example</h2>
+  <div class="terminal">
+    $ arkpage deploy my-site ./public<br>
+    ✔ Authenticating GitHub<br>
+    ✔ Creating repository<br>
+    ✔ Uploading files<br>
+    ✔ Pages enabled<br><br>
+    🌐 https://user.github.io/my-site
+  </div>
+</div>
+
+<div class="card">
+  <h2>🛡 Philosophy</h2>
+  <ul>
+    <li>No telemetry</li>
+    <li>No spyware</li>
+    <li>No vendor lock-in</li>
+    <li>Developer-first</li>
+  </ul>
+</div>
+
+<div class="card" id="about">
+  <h2>👑 About the Creator</h2>
+  <p>
+    Built by <strong>ARK206</strong>.<br>
+    Automation. Security. Control.
+  </p>
+</div>
+
+</main>
+
+<footer>
+© 2026 ArkPage — ARK206<br>
+Built for developers, not dashboards.
+</footer>
+
+<script>
+/* Menu */
+function toggleMenu() {
+  const m = document.getElementById("menu");
+  m.style.display = m.style.display === "block" ? "none" : "block";
+}
+
+/* Loader */
+setTimeout(() => {
+  document.getElementById("loader").style.display = "none";
+}, 2600);
+
+/* Matrix */
+const c = document.getElementById("matrix");
+const ctx = c.getContext("2d");
+c.width = innerWidth;
+c.height = innerHeight;
+
+const chars = "01ARKPAGE$#@";
+const drops = Array(Math.floor(c.width / 14)).fill(1);
+
+function draw() {
+  ctx.fillStyle = "rgba(0,0,0,0.05)";
+  ctx.fillRect(0,0,c.width,c.height);
+  ctx.fillStyle = "#00ff9c";
+  ctx.font = "14px monospace";
+
+  drops.forEach((y,i) => {
+    const text = chars[Math.floor(Math.random()*chars.length)];
+    ctx.fillText(text, i*14, y*14);
+    if (y*14 > c.height && Math.random() > .975) drops[i] = 0;
+    drops[i]++;
+  });
+}
+setInterval(draw, 50);
+</script>
+
+</body>
+</html>
